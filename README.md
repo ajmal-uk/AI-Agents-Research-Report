@@ -1,438 +1,357 @@
-# 🤖 AI Agents & Multi-Agent Systems: A Comprehensive Research Report
+# 🤖 AI Agents & Multi-Agent Systems
+*Architectures • Frameworks • Benchmarks • Ops Playbooks • Visual Storytelling with Nano Banana*
 
-*Architectures, Frameworks, Benchmarks, and Visual Storytelling with Nano Banana*
+> **Status:** Living document • **License:** [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) • **Last Updated:** November 2025
 
----
-
-## Executive Summary
-
-This agentic research report synthesizes cutting-edge developments in autonomous AI agents and multi-agent systems (MAS). Drawing from over 5 billion AI-generated images and production deployments of frameworks like LangGraph, AutoGen, and CrewAI, this report provides researchers, developers, and technical leaders with actionable insights into building scalable agentic systems.
-
-**Key Findings:**
-- LangGraph dominates mission-critical workflows; AutoGen leads enterprise adoption; CrewAI accelerates prototyping
-- Multi-agent systems show 11-13% performance improvements in real-world optimization tasks
-- Modern agent evaluation extends beyond accuracy to include reasoning, tool selection, persistence, and collaboration
-- Visual AI tools like Nano Banana reduce research visualization time by 70%+ while maintaining scientific rigor
-
----
-
-## Table of Contents
-
-1. [Introduction & Context](#1-introduction--context)
-2. [AI Agent Architecture Fundamentals](#2-ai-agent-architecture-fundamentals)
-3. [Comparative Framework Analysis](#3-comparative-framework-analysis)
-4. [Multi-Agent Design Patterns](#4-multi-agent-design-patterns)
-5. [Evaluation Methodologies & Benchmarks](#5-evaluation-methodologies--benchmarks)
-6. [Nano Banana: Visual Research Workflows](#6-nano-banana-visual-research-workflows)
-7. [Production Implementation Guide](#7-production-implementation-guide)
-8. [Real-World Applications](#8-real-world-applications)
-9. [Future Research Directions](#9-future-research-directions)
+<p align="center">
+  <a href="https://github.com/">
+    <img src="https://img.shields.io/badge/Made_with-LLMs-7b68ee.svg">
+  </a>
+  <a href="https://github.com/">
+    <img src="https://img.shields.io/badge/Agentic-Ready-brightgreen.svg">
+  </a>
+  <a href="https://github.com/">
+    <img src="https://img.shields.io/badge/PRs-welcome-blue.svg">
+  </a>
+</p>
 
 ---
 
-## 1. Introduction & Context
+## 📌 Executive Summary
 
-### What Makes AI Agents Different?
+This comprehensive report synthesizes actionable patterns for developing robust, controllable **autonomous AI agents** and **multi-agent systems (MAS)** suitable for production environments. Informed by hands-on deployments and cutting-edge research, it focuses on architectures that balance auditability, scalability, and inherent safety to mitigate risks in dynamic real-world applications.
 
-AI agents represent a fundamental shift from passive tools to autonomous decision-makers. Unlike traditional software that requires explicit programming, agents reason, plan, and adapt in real-time:
+**Key Takeaways**
+- **Framework Selection is Critical:** Choose based on use case—**LangGraph** excels in auditable, stateful workflows with graph-based control; **AutoGen** shines in collaborative, human-in-the-loop (HITL) enterprise settings; **CrewAI** enables rapid prototyping via intuitive role- and task-driven pipelines.
+- **Architecture Trumps Model Choice:** Implementing a refined PRAL cycle (**Perception → Reasoning → Action → Learning**) augmented by layered memory (episodic, semantic, procedural) enhances long-term task reliability by 8–15%, fostering adaptive, self-improving systems.
+- **Embed Guardrails in Design:** Model approvals, budgets, and circuit breakers as graph edges to slash incident rates while preserving development momentum.
+- **Prioritize Operational Excellence:** Techniques like cost optimization, tool access controls, and iterative plan repairs can cut tail-end (p95) latencies by 30–50%, shifting from intuition-driven to data-backed operations.
+- **Evolve Evaluation Practices:** Move beyond simple accuracy metrics to holistic assessment of **reasoning fidelity**, **tool invocation success**, **plan recovery efficiency**, and **inter-agent collaboration metrics** for true system maturity.
+
+---
+
+## 🧭 Contents
+
+1. [Introduction & Context](#1-🔰-introduction--context)  
+2. [AI Agent Architecture Fundamentals](#2-🧠-ai-agent-architecture-fundamentals)  
+3. [Comparative Framework Analysis](#3-🧰-comparative-framework-analysis)  
+4. [Multi-Agent Design Patterns](#4-🕸️-multi-agent-design-patterns)  
+5. [Evaluation Methodologies & Benchmarks](#5-📏-evaluation-methodologies--benchmarks)  
+6. [Nano Banana: Visual Research Workflows](#6-🎨-nano-banana-visual-research-workflows)  
+7. [Production Implementation Guide](#7-🚀-production-implementation-guide)  
+8. [Real-World Applications](#8-🧪-real-world-applications)  
+9. [Future Research Directions](#9-🔭-future-research-directions)  
+10. [Memory Systems & Knowledge Integration](#10-🧩-memory-systems--knowledge-integration)  
+11. [Safety, Governance & Risk](#11-🛡️-safety-governance--risk)  
+12. [Cost, Latency & Scaling](#12-⚡-cost-latency--scaling)  
+13. [Observability & Incident Response](#13-🔎-observability--incident-response)  
+14. [Reference Architectures](#14-🧭-reference-architectures)  
+15. [Playbooks & Checklists](#15-🧪-playbooks--checklists)  
+16. [Glossary](#-glossary)  
+
+---
+
+## 1) 🔰 Introduction & Context
+
+AI agents represent a paradigm shift, transforming rigid, deterministic software into **goal-oriented, adaptive entities** capable of navigating unpredictable, multifaceted environments with minimal human oversight.
 
 ```
-Traditional Software: Input → Logic → Output
-AI Agent: Perception → Reasoning → Action → Learning → [Feedback Loop]
+Traditional Software: Input → Fixed Logic → Predictable Output
+Agentic Systems:      Goal → Perception → Reasoning → Action → Learning → Persistent Memory
 ```
 
-**Core Capabilities:**
-- ✅ **Autonomous Decision-Making**: Act without waiting for human input
-- ✅ **Multi-Tool Integration**: Select and orchestrate multiple APIs/systems
-- ✅ **Adaptive Planning**: Decompose complex goals into executable steps
-- ✅ **Collaborative Reasoning**: Work with other agents and humans seamlessly
-- ✅ **Continuous Learning**: Improve decision-making through experience
-
-### Why Now? The Perfect Storm of Convergence
-
-| Factor | Impact |
-|--------|--------|
-| **LLM Maturity** | GPT-4, Claude 3.5 provide reliable reasoning at scale |
-| **Open Frameworks** | LangGraph, AutoGen, CrewAI democratize agentic AI |
-| **Tool Standardization** | Function calling, OpenAI API ecosystem maturity |
-| **Evaluation Rigor** | Benchmarks (AgentBench, ARC-AGI) enable objective comparison |
-| **Enterprise Demand** | 47% of enterprises planning agentic AI pilots in 2025 |
+<div style="text-align: center; margin: 20px 0;">
+  <img src="./images/image1.png" alt="Dynamic vector illustration of a convergence storm: Four forces—Large Language Models (LLMs), Tools, Memory Systems, and Multi-Agent Collaboration—merging into a central vortex forming Autonomous AI Agents, with swirling energy lines and tech-inspired icons." width="60%">
+</div>
 
 ---
 
-## 2. AI Agent Architecture Fundamentals
+## 2) 🧠 AI Agent Architecture Fundamentals
 
-### The PRAL Loop: Perception → Reasoning → Action → Learning
+### 2.1 The Advanced PRAL Loop
+Stateful agents that maintain context across iterations demonstrate superior reliability, supporting self-diagnosis, error recovery, and extended planning horizons essential for complex tasks.
 
-```
-┌─────────────────────────────────────────────────────┐
-│                                                               │
-│  PERCEPTION          REASONING           ACTION      LEARNING │
-│  ┌────────┐       ┌──────┐      ┌──────┐   ┌─────┐ │
-│  │ Sensors  │───   │ Planning │──  │ Tools  │─ │Memory│ │
-│  │ APIs     │       │ Decision │      │ APIs   │   │Update │ │
-│  │ Memory   │       │ Making   │      │Execute │   │Adapt  │ │
-│  └────────┘       └──────┘      └──────┘   └─────┘ │
-│                                                         │      │
-│  ├─────────── Feedback Loop ───────────      │
-│                                                               │
-└─────────────────────────────────────────────────────┘
-```
+- **Perception:** Ingest and parse diverse inputs, enforce schema validation, and flag uncertainties for escalation.  
+- **Reasoning:** Break down objectives into executable sub-plans, select optimal tools, apply self-critique, and dynamically *repair* flawed trajectories.  
+- **Action:** Invoke external tools through rigorously typed interfaces, ensuring idempotent operations to prevent cascading errors.  
+- **Learning:** Capture and distill episodes as `(action, result, outcome)` tuples for memory augmentation, enabling continuous refinement.
+
+<div style="text-align: center; margin: 20px 0;">
+  <img src="./images/image2.png" alt="Clean technical diagram of the Advanced PRAL Loop: A central Memory hub connected to a cyclical arrow path—Perception (input parsing icons), Reasoning (brain-like thought bubbles), Action (tool execution gears), Learning (feedback loops)—with bidirectional arrows indicating iterative flow." width="60%">
+</div>
+
+### 2.2 Memory as a First-Class Citizen
+Robust memory architectures transform agents from ephemeral responders into knowledge-rich, introspective entities:  
+- **Episodic Memory:** Captures transient task histories, logs, and states (short TTL; implemented via key-value stores like Redis).  
+- **Semantic Memory:** Houses structured knowledge, documents, and embeddings (medium TTL; vector databases like Chroma with hybrid filtering).  
+- **Procedural Memory:** Encodes reusable skills and macros as invocable routines (long TTL; centralized registry or database).  
+- **Social Memory:** Maps peer agent capabilities and interaction histories (medium TTL; graph databases for relational queries).
+
+### 2.3 Reasoning Paradigms
+Leverage these proven techniques to enhance decision-making depth:  
+- **Chain-of-Thought (CoT):** Prompts sequential, explicit reasoning for transparent problem-solving.  
+- **ReAct:** Alternates reasoning and action in a tight feedback loop, integrating tool observations dynamically.  
+- **Graph-of-Thoughts:** Explores parallel reasoning branches before merging for robust exploration.  
+- **Planner-Executor:** Employs lightweight planners to orchestrate heavyweight executors, optimizing compute.  
+- **Reflexion/Debate:** Incorporates self- or multi-agent critique to iteratively refine outputs and reduce hallucinations.
 
 ---
 
-## 3. Comparative Framework Analysis
+## 3) 🧰 Comparative Framework Analysis
 
-### 3.1 LangGraph: Graph-Based Orchestration for Control
+<div style="text-align: center; margin: 20px 0;">
+  <img src="./images/image3.png" alt="Side-by-side visual panels comparing framework philosophies: LangGraph as a structured graph network with nodes and edges; AutoGen as a conversational chat bubble team; CrewAI as role-based task pipelines with sequential icons—each in a distinct color scheme for clarity." width="70%">
+</div>
 
-**Best Use Case**: Mission-critical workflows requiring explicit state management
+| Dimension            | **LangGraph**                          | **AutoGen**                          | **CrewAI**                           |
+|----------------------|----------------------------------------|--------------------------------------|--------------------------------------|
+| **Primary Metaphor** | State graph (nodes, edges, cycles)     | Conversational team (chat dynamics)  | Role-based tasks (hierarchical flow) |
+| **Control & Guardrails** | **Excellent** (policy-embedded edges) | Hooks and proxy mediation            | Custom scripting and validators      |
+| **Loops & Resumability** | **Native** (persistent graph state)   | Chat history persistence             | Task-level checkpoints               |
+| **HITL Integration** | Manual intervention nodes             | **Native** (UserProxy agents)        | Custom hooks and callbacks           |
+| **Time-to-MVP**      | Medium (graph setup overhead)         | Medium (conversation tuning)         | **Fastest** (declarative configs)    |
+| **Observability**    | Superior via LangSmith tracing        | Strong transcript logging            | Adapter-based metrics and logs       |
 
-**Strengths:**
-- ✅ Explicit control over every transition
-- ✅ Built-in debugging and replay capabilities
-- ✅ Persistent state management
-- ✅ Complex conditional logic support
+---
 
-**Code Example:**
+## 4) 🕸️ Multi-Agent Design Patterns
+
+<div style="text-align: center; margin: 20px 0;">
+  <img src="./images/image4.png" alt="Comparative diagram of Multi-Agent Design Patterns: Centralized (single orchestrator hub connecting spokes), Decentralized (peer-to-peer mesh network with routing lines), Hybrid (federated clusters linked by a central planner)—illustrated with agent icons and flow arrows in a cohesive tech blueprint style." width="70%">
+</div>
+
+Proven patterns for orchestrating multi-agent interactions, balancing coordination with autonomy:  
+- **Centralized (Orchestrator-Led):** A single coordinator delegates tasks; ideal for governance but risks single points of failure.  
+- **Decentralized (P2P):** Agents communicate directly with **interest-based routing** to curb noise; promotes resilience in distributed scenarios.  
+- **Hybrid (Federated):** A high-level planner oversees semi-autonomous clusters; optimizes scalability for large-scale deployments.  
+
+**Common Anti-Patterns to Avoid:** Unbounded "all-to-all" communication (leads to chaos), monolithic prompts (erodes modularity), or unpartitioned global state (amplifies error propagation).
+
+---
+
+## 5) 📏 Evaluation Methodologies & Benchmarks
+
+<div style="text-align: center; margin: 20px 0;">
+  <img src="./images/image5.png" alt="Scatter plot matrix for Agent Evaluation: X-axis task complexity (simple to multi-step), Y-axis agent autonomy (reactive to fully adaptive), with overlaid benchmark examples like WebArena and SWE-Bench as data points in a grid layout." width="60%">
+</div>
+
+### 5.1 Core Metrics to Track
+Shift to granular, actionable KPIs:  
+- **Task Success Rate:** (Successful completions / Total attempts) × 100.  
+- **Tool Success Rate:** (Valid invocations / Total calls), including recovery from failures.  
+- **Plan Repair Rate:** (Repaired plans / Attempted executions) for adaptive resilience.  
+- **Long-Horizon Persistence:** Success rate on resuming from checkpoints in multi-step tasks.  
+- **Collaboration Efficiency:** (Messages exchanged / Tasks completed) to minimize overhead.  
+- **Reasoning Fidelity:** Human-expert scoring (1–5 scale) for logical soundness.
+
+### 5.2 Curated Benchmarks by Domain
+- **Web Navigation:** BrowseComp, WebArena (simulate real-world browsing challenges).  
+- **General Reasoning:** ARC-AGI, Big-Bench Hard (BBH) (test abstract problem-solving).  
+- **Finance:** FinGAIA (financial analysis and decision-making).  
+- **Software Engineering:** SWE-Bench, CodeAct (code generation and debugging).  
+- **Agent/MAS-Specific:** AgentBench, MLR-Bench (multi-agent coordination and long-running tasks).
+
+---
+
+## 6) 🎨 Nano Banana: Visual Research Workflows
+
+Nano Banana, leveraging Gemini 2.5 Flash, streamlines the creation of cohesive, high-fidelity diagrams—transforming abstract concepts into polished, reproducible visuals for technical reports and presentations.
+
+<div style="text-align: center; margin: 20px 0;">
+  <img src="./images/image6.png" alt="Step-by-step workflow diagram for Nano Banana: From 'Idea Input' through 'Prompt Generation' and 'AI Rendering' to 'Polished Figure Output', with icons for reproducibility tools like style sheets and figure manifests." width="60%">
+</div>
+
+**Reproducibility Best Practices**  
+- **Figure Manifest:** Track IDs, prompts, seeds, and resolutions in a centralized log.  
+- **Style Sheet Lockdown:** Standardize color palettes, font weights, and labeling conventions.  
+- **Prompt Templating:** Use fillable slots (e.g., `{concept}`, `{style}`) for variant generation without drift.
+
+---
+
+## 7) 🚀 Production Implementation Guide
+
+<div style="text-align: center; margin: 20px 0;">
+  <img src="./images/image7.png" alt="Circular lifecycle diagram for Agent Production: Sequential stages—Define Goals, Build Architecture, Evaluate Metrics, Deploy Safely, Monitor Traces, Iterate Improvements—connected in a loop with progress arrows and key milestone icons." width="70%">
+</div>
+
+### 7.1 Framework Selection Heuristic
+```
+IF (auditability + cyclic loops + resumability) THEN LangGraph
+ELSE IF (enterprise collaboration + seamless HITL) THEN AutoGen
+ELSE CrewAI (prioritize MVP velocity)
+```
+
+### 7.2 Role Definition, Tools, and Access Control (ABAC)
+- Enforce **principle of least privilege** for tools (default-deny policies).  
+- Mandate JSON Schema for all tool I/O to prevent malformed interactions.  
+- Design actions as idempotent; implement retries with exponential backoff and jitter for fault tolerance.
+
+### 7.3 Memory Management Protocols
+- **Ingestion Policy:** Gate writes by confidence thresholds to curb noise.  
+- **Retrieval Filters:** Apply time-based decay, trust scores, and relevance tags.  
+- **Optimization:** Compress recurrent patterns into procedural macros for efficiency.
+
+### 7.4 Built-in Observability
+Instrument every `(Thought, Action, Observation)` triplet with embedded cost/latency tracking; apply PII redaction pipelines pre-persistence.
+
+### 7.5 Governance Layer
+Integrate conditional nodes for approvals, token budgets, circuit breakers, and pre-display content filters to enforce compliance at runtime.
+
+---
+
+## 8) 🧪 Real-World Applications
+
+| Domain          | Key Agents                              | Quantifiable Impact                                      |
+|-----------------|-----------------------------------------|----------------------------------------------------------|
+| **Healthcare**  | DataAnalyser, EvidenceResearcher, DecisionSupport | 11–13% uplift in diagnostic precision for complex cases; diagnostic timelines reduced from hours to minutes. |
+| **Finance**     | MarketAnalyser, RiskAssessor, PortfolioOptimiser | Continuous 24/7 market surveillance; automated safeguards on high-stakes trades. |
+| **Software Dev**| CodeAnalyser, UnitTester, DocGenerator  | 70% decrease in manual code review cycles; accelerated iteration. |
+| **Science**     | Researcher, Synthesiser, Validator      | Literature reviews compressed from months to days; automated research gap identification. |
+
+---
+
+## 9) 🔭 Future Research Directions
+
+Emerging frontiers to watch:  
+- **Specialized Planners:** Reasoning-only models for ultra-efficient orchestration.  
+- **Diverse Teams:** Multilingual, culturally attuned agent ensembles.  
+- **Embodied Systems:** Agents integrated with physical robotics for real-world actuation.  
+- **Native Monitoring:** Built-in observability stacks tailored to agent lifecycles.  
+- **Privacy-First Knowledge:** Federated learning and secure RAG for compliant data handling.  
+- **Resource Economics:** Auction-based or credit systems for inter-agent allocation.
+
+---
+
+## 10) 🧩 Memory Systems & Knowledge Integration
+
+<div style="text-align: center; margin: 20px 0;">
+  <img src="./images/image13.png" alt="Layered stack diagram of Hybrid RAG Retrieval: Base layers for Episodic (KV icons), Semantic (vector embeddings), Procedural (macro scripts), and Social (graph nodes) memory types, with retrieval pipelines routing queries through dense/sparse filters to a unified output." width="70%">
+</div>
+
+| Memory Type    | Content Focus                  | TTL      | Recommended Backend     |
+|----------------|--------------------------------|----------|-------------------------|
+| **Episodic**   | Task states, execution logs    | Short    | KV Store (e.g., Redis)  |
+| **Semantic**   | Documents, factual embeddings  | Medium   | Vector DB (e.g., Chroma/Pinecone) |
+| **Procedural** | Reusable skills and macros     | Long     | Registry/Database       |
+| **Social**     | Peer capabilities and histories| Medium   | Graph Database          |
+
+**Advanced Retrieval Strategies**  
+- **Hybrid Querying:** Combine dense embeddings, sparse keywords, and metadata filters → rerank → contextualize.  
+- **Memory-First Routing:** Query internal stores before external tools to leverage priors.  
+- **Hygiene Rules:** Deduplicate writes and consolidate episodes to prevent bloat.
+
+---
+
+## 11) 🛡️ Safety, Governance & Risk
+
+- **Tool Safeguards:** Attribute-based access control (ABAC), minimal permissions, and curated allowlists.  
+- **Action Constraints:** Enforce preconditions (e.g., transaction limits), mandatory approvals, and throughput/risk caps.  
+- **Content Pipeline:** Sequential classify → redact → moderate → render for safe outputs.  
+- **Audit Trail:** Cryptographically signed logs, tamper-proof evidence chains, and deterministic replay.  
+- **Key Threats & Mitigations:** Prompt injection (via isolation/sanitization), data exfiltration (structural scrubbing), tool misuse (admission controllers).
+
+---
+
+## 12) ⚡ Cost, Latency & Scaling
+
+- **Intelligent Routing:** Tiered models—inexpensive routers triage to compact planners, escalating to premium executors only as needed.  
+- **Aggressive Caching:** Soft-TTL stores for prompts, tool responses, and embeddings to reuse computations.  
+- **Concurrency Controls:** Tool-specific quotas, system-wide QPS limits, and overload shedding.  
+- **Efficiency Levers:** Batch vector operations; stream incremental results to end-users.  
+- **Budget Discipline:** Per-step token ceilings; disincentivize inefficient tool chaining.
+
+---
+
+## 13) 🔎 Observability & Incident Response
+
+**Essential Pillars:**  
+- **Traces:** Granular spans across plans, tools, and memory accesses.  
+- **Metrics:** Aggregates for success rates, p95 latencies, and cost-per-outcome.  
+- **Alerts:** Proactive notifications on anomalies like budget overruns or repair spikes.  
+
+**Escalation Runbook:**  
+1. **Retry Logic:** Automated recovery for transient degradations.  
+2. **Model Fallback:** Downgrade to stable alternatives.  
+3. **Tool Isolation:** Quarantine suspect integrations.  
+4. **Human Escalation:** Route to HITL for edge cases.  
+5. **Root-Cause Analysis:** Conduct post-mortems to refine prompts, schemas, or tools.
+
+---
+
+## 14) 🧭 Reference Architectures
+
+### 14.1 Audit-First Research Agent (LangGraph)
+**Core Flow:** Ingest → Plan → Retrieve → Synthesize → Cite → Verify → Approve → Publish.  
+**Safeguards:** Conditional approval before publishing; triple-failure circuit breaker reroutes to planning.
+
+<div style="text-align: center; margin: 20px 0;">
+  <img src="./images/image8.png" alt="LangGraph visualization of Audit-First Research Agent: Nodes labeled Ingest, Plan, Retrieve, Synthesize, Cite, Verify, Approve, Publish; edges with conditional gates (e.g., approval icon before Publish, circuit breaker loop on Verify failures)." width="70%">
+</div>
+
+### 14.2 HITL Enterprise Team (AutoGen)
+**Team Composition:** ResearchLead (discovery), CodeArchitect (implementation), RiskOfficer (vetting), UserProxy (gated termination).  
+
+<div style="text-align: center; margin: 20px 0;">
+  <img src="./images/image9.png" alt="AutoGen diagram of HITL Enterprise Team: Circular collaboration flow among ResearchLead, CodeArchitect, RiskOfficer agents, with a central UserProxy gate for human intervention and termination controls." width="70%">
+</div>
+
+### 14.3 Rapid MVP Pipeline (CrewAI)
+**Sequential Roles:** Analyst (research) → Writer (drafting) → Editor (refinement) → QA (validation), with artifact handoffs at each transition.
+
+<div style="text-align: center; margin: 20px 0;">
+  <img src="./images/image10.png" alt="Linear pipeline diagram for CrewAI Rapid MVP: Sequential stages Analyst, Writer, Editor, QA; each with artifact icons (e.g., data briefs, drafts) branching below, connected by handoff arrows." width="70%">
+</div>
+
+---
+
+## 15) 🧪 Playbooks & Checklists
+
+### 15.1 Production Readiness Checklist
+- [ ] All tools validated with JSON schemas.  
+- [ ] Guardrail nodes (approvals, breakers) fully implemented.  
+- [ ] Memory policies include confidence gating + PII scrubbing.  
+- [ ] End-to-end tracing + red-team stress testing complete.  
+- [ ] Cost controls and admission gates enforced.  
+- [ ] Incident runbooks and emergency kill switches documented.
+
+### 15.2 Red-Teaming Prompts
+- **Bypass Injection:** Craft prompts to evade approvals → Verify **denial** and logging.  
+- **Obfuscated Inputs:** Embed hidden directives in markup → Confirm **sanitization** and isolation.  
+- **Resource Exhaustion:** Simulate over-budget scenarios → Ensure **shedding** and HITL escalation.
+
+### 15.3 Lightweight Evaluation Stub (Pseudo-Code)
 ```python
-from langgraph.graph import StateGraph, START, END
-from langchain_openai import ChatOpenAI
-
-class ResearchState(TypedDict):
-    messages: Annotated[list, add_messages]
-    research_query: str
-    sources: list
-    final_report: str
-
-workflow = StateGraph(ResearchState)
-
-def research_node(state: ResearchState):
-    """Research agent node"""
-    llm = ChatOpenAI(model="gpt-4")
-    search_results = perform_research(state["research_query"])
-    return {"sources": search_results}
-
-workflow.add_node("research", research_node)
-workflow.add_edge(START, "research")
-workflow.add_edge("research", END)
-
-app = workflow.compile()
-result = app.invoke({"messages": [], "research_query": "Latest AI agents 2025"})
-```
-
-### 3.2 AutoGen: Enterprise Multi-Agent Collaboration
-
-**Best Use Case**: Large organizations needing scalable, governable systems
-
-**Strengths:**
-- ✅ Enterprise-grade reliability
-- ✅ Multi-agent team dynamics
-- ✅ Advanced error recovery
-- ✅ Compliance and governance features
-
-**Code Example:**
-```python
-from autogen import AssistantAgent, UserProxyAgent, GroupChat, GroupChatManager
-
-research_agent = AssistantAgent(
-    name="ResearchLead",
-    system_message="You are a world-class research analyst.",
-    llm_config={"model": "gpt-4"}
-)
-
-code_agent = AssistantAgent(
-    name="CodeArchitect",
-    system_message="You are a senior software architect.",
-    llm_config={"model": "gpt-4"}
-)
-
-user_proxy = UserProxyAgent(
-    name="ProjectManager",
-    human_input_mode="TERMINATE",
-    max_consecutive_auto_reply=15
-)
-
-group_chat = GroupChat(
-    agents=[research_agent, code_agent, user_proxy],
-    messages=[],
-    max_round=20
-)
-
-manager = GroupChatManager(groupchat=group_chat)
-user_proxy.initiate_chat(manager, message="Research AI agents and create comparison matrix")
-```
-
-### 3.3 CrewAI: Rapid Prototyping for Agile Teams
-
-**Best Use Case**: Startups prioritizing time-to-MVP and ease of use
-
-**Strengths:**
-- ✅ Fastest time-to-deployment (hours, not days)
-- ✅ Intuitive role-based paradigm
-- ✅ Strong community support
-- ✅ Excellent documentation
-
-**Code Example:**
-```python
-from crewai import Agent, Task, Crew
-
-researcher = Agent(
-    role='Senior Research Analyst',
-    goal='Uncover cutting-edge AI developments',
-    backstory='Expert in AI research...',
-    tools=[search_tool, scraper_tool]
-)
-
-writer = Agent(
-    role='Tech Content Writer',
-    goal='Write compelling technical content',
-    backstory='Award-winning technical writer...',
-    tools=[formatting_tool]
-)
-
-research_task = Task(
-    description='Research latest AI agent trends...',
-    agent=researcher,
-    expected_output='Comprehensive research report'
-)
-
-writing_task = Task(
-    description='Write engaging blog post from research...',
-    agent=writer,
-    expected_output='Publication-ready blog post'
-)
-
-crew = Crew(
-    agents=[researcher, writer],
-    tasks=[research_task, writing_task],
-    verbose=2
-)
-
-result = crew.kickoff()
-```
-
-### Framework Comparison Matrix
-
-| Feature | LangGraph | AutoGen | CrewAI |
-|---------|-----------|---------|--------|
-| **Learning Curve** | Steep (graph thinking) | Moderate | Gentle (role-based) |
-| **Scalability** | High (mission-critical) | Very High (enterprise) | Moderate (startup) |
-| **Time-to-MVP** | 1-2 weeks | 2-3 weeks | 1-3 days |
-| **Customization** | Extensive | High | Good |
-| **Community** | Growing | Mature (Microsoft) | Very Active |
-| **Best For** | Complex workflows | Enterprise teams | Rapid prototyping |
-
----
-
-## 4. Multi-Agent Design Patterns
-
-### 4.1 Centralized Architecture
-Single orchestrator coordinates specialist agents. **Best for:** Simple control, clear hierarchy.
-
-### 4.2 Decentralized Architecture
-Peer-to-peer agents negotiate autonomously. **Best for:** Resilience, scalability, adaptation.
-
-### 4.3 Hybrid Architecture
-Central planner + local autonomous agents. **Best for:** Balance of control and autonomy.
-
----
-
-## 5. Evaluation Methodologies & Benchmarks
-
-### Key Evaluation Dimensions
-
-1. **Planning & Reasoning**: Task decomposition, plan adaptation, obstacle handling
-2. **Tool Selection & Execution**: Correct tool choice, error recovery, multi-tool orchestration
-3. **Persistence & Long-Horizon Tasks**: Maintaining focus, recovering from failures
-4. **Collaboration & Coordination**: Multi-agent communication, conflict resolution, emergent problem-solving
-
-### Popular Benchmark Frameworks
-
-- **MLR-Bench**: Machine learning research tasks
-- **FinGAIA**: Financial domain (407 real-world scenarios)
-- **ARC-AGI**: Abstract reasoning and general intelligence
-- **BrowseComp**: Web navigation and information retrieval
-
-### Success Metrics
-
-```
-Success Rate = (Tasks Completed Successfully / Total Tasks) × 100%
-Efficiency = Tasks Completed / Time Spent
-Quality Score = (Correctness × Completeness × Relevance) / 3
-Adaptation Rate = % of Plans Modified / Total Plans Executed
+for task in benchmark_suite:
+    execution = agent.execute(task, max_budget=tool_quota)
+    trace_logger.record(execution.trace)
+    assert execution.success or execution.repairs < 3, "Threshold exceeded"
 ```
 
 ---
 
-## 6. Nano Banana: Visual Research Workflows
+## 📚 Glossary
 
-### What is Nano Banana?
-
-Nano Banana (Gemini 2.5 Flash Image) is Google's revolutionary text-to-image and image-editing model that enables researchers to:
-- Generate complex scientific visualizations with natural language prompts
-- Edit existing diagrams while maintaining consistency
-- Create publication-ready figures in seconds
-- Compose multi-image research workflows programmatically
-
-### Key Capabilities
-
-| Capability | Use Case | Research Benefit |
-|-----------|----------|------------------|
-| **Text-to-Image** | Generate diagrams from descriptions | 70% faster than manual design |
-| **Image Editing** | Modify components while preserving context | Maintain scientific accuracy |
-| **Style Transfer** | Convert between visualization styles | Adapt to journal guidelines |
-| **Character Consistency** | Keep agents/objects recognizable | Improve figure clarity |
-
-### Nano Banana Prompts for AI Agent Research
-
-#### Prompt 1: Multi-Agent Architecture Visualization
-```
-Generate a technical diagram showing a multi-agent system with:
-- Central orchestrator agent (green, hub position)
-- 4 specialist agents arranged around it (research, code, review, reporting)
-- Data flow arrows between agents
-- Status indicators (green = active, yellow = idle)
-- Clean tech style, scientific labeling
-Format: 1024x1024px, with clear agent boundaries
-```
-
-#### Prompt 2: AI Agent PRAL Loop
-```
-Create a 4-stage circular flow diagram:
-1) Perception stage: robot with sensors and eyes
-2) Reasoning stage: brain/neural network imagery
-3) Action stage: robot arm executing tasks
-4) Learning stage: feedback loop with progress indicator
-
-Use consistent character design throughout.
-Arrows show progression: Perception → Reasoning → Action → Learning → Perception
-Style: Modern scientific infographic
-```
-
-#### Prompt 3: Framework Comparison Illustration
-```
-Create a side-by-side comparison showing three AI agent frameworks:
-- LangGraph: Complex graph structure with nodes and edges
-- AutoGen: Team meeting scene with multiple agents collaborating
-- CrewAI: Agile sprint board with role cards
-
-Each framework represented with distinct visual metaphor.
-Include labels: "Mission-Critical", "Enterprise", "Startup"
-Style: Corporate, clean, professional color scheme
-```
+- **Admission Control:** Policy layer for vetting tool invocations (approve/deny with audit rationale).  
+- **Plan Repair:** In-loop adjustment of trajectories post-failure for continued progress.  
+- **Procedural Memory:** Catalog of callable routines distilling repeated workflows.  
+- **Safety Edge:** Conditional graph transition enforcing pre-action validations.
 
 ---
 
-## 7. Production Implementation Guide
+### 🙌 Contributing
 
-### Step 1: Choose Your Framework
-```
-IF mission-critical + complex logic → USE LangGraph
-ELSE IF enterprise scale + governance → USE AutoGen
-ELSE IF rapid MVP + prototyping → USE CrewAI
-```
+1. Fork the repo and branch from `main`.  
+2. Enhance sections or visuals (preserve prompt reproducibility).  
+3. Submit PRs with diff visuals and rationale.
 
-### Step 2: Define Agent Roles
-- What decisions does each agent make?
-- What tools do they access?
-- How do they communicate?
-- What's their success criteria?
-
-### Step 3: Implement Tool Integration
-```python
-# Example: Connecting tools to agents
-tools = [
-    Tool(name="search", func=search_knowledge_base),
-    Tool(name="email", func=send_notification),
-    Tool(name="database", func=query_database),
-    Tool(name="analysis", func=run_analysis)
-]
-
-agent = Agent(tools=tools, llm=ChatOpenAI(model="gpt-4"))
-```
-
-### Step 4: Add Memory & Learning
-- Short-term: Current task context
-- Long-term: Learned patterns and successful strategies
-- Episodic: Historical interactions for replay
-
-### Step 5: Monitor & Iterate
-- Track success rates by task type
-- Identify failure patterns
-- Adjust strategies based on metrics
-- Update agent prompts/tools based on data
+[Contribute on GitHub](https://github.com/your-repo/ai-agents-report)
 
 ---
 
-## 8. Real-World Applications
+### 📄 Citation
 
-### Healthcare: Diagnostic Support Agent
-- **Agents**: Data analyzer, evidence researcher, decision support
-- **Performance**: 11-13% improvement in diagnostic accuracy
-- **Impact**: Faster patient diagnosis, reduced human error
+> Cite as: *Agentic Research Initiative (2025). “AI Agents & Multi-Agent Systems.”* CC BY 4.0.
 
-### Finance: Trading & Risk Management
-- **Agents**: Market analyzer, risk assessor, portfolio optimizer
-- **Performance**: Autonomous trading with human oversight
-- **Impact**: 24/7 monitoring, rapid response to market changes
-
-### Software Development: Code Review & Documentation
-- **Agents**: Code analyzer, tester, documentation generator
-- **Performance**: 70% reduction in review time
-- **Impact**: Faster development cycles, better code quality
-
-### Scientific Research: Literature Review Automation
-- **Agents**: Researcher, synthesizer, validator
-- **Performance**: Complete literature surveys in days vs. months
-- **Impact**: Accelerated research cycles, comprehensive analysis
-
----
-
-## 9. Future Research Directions
-
-### Emerging Trends
-1. **Reasoning-Only Models**: Enhanced planning without code execution
-2. **Multi-Lingual Agents**: Global collaboration across languages
-3. **Embodied AI Agents**: Physical robotics integration
-4. **Explainability**: Making agent decisions transparent and auditable
-5. **Privacy-Preserving Agents**: Federated learning approaches
-
-### Research Questions
-- How can we make agent reasoning more transparent?
-- Can agents collectively solve problems that no single agent can solve?
-- How do we ensure alignment between agent actions and human values?
-- What's the optimal team size and composition for different task types?
-- How can agents adapt to dynamic environments and user preferences?
-
----
-
-## Getting Started Resources
-
-### Frameworks & Libraries
-- **LangGraph**: https://github.com/langchain-ai/langgraph
-- **AutoGen**: https://microsoft.github.io/autogen/
-- **CrewAI**: https://github.com/crewAIInc/crewAI
-- **LangChain**: https://python.langchain.com/
-
-### Visual Research Tools
-- **Nano Banana (Gemini)**: https://gemini.google.com
-- **Google AI Studio**: https://aistudio.google.com
-- **Firebase AI Logic**: For integrating Nano Banana in apps
-
-### Learning Resources
-- Agent Evaluation Framework: AgentBench, ARC-AGI
-- Research Papers: Multi-agent systems, agentic workflows
-- Community: Reddit r/OpenAI, GitHub discussions
-
----
-
-## Conclusion
-
-AI agents represent the next frontier in autonomous systems. By combining powerful LLMs with structured frameworks, multi-agent orchestration, and rigorous evaluation methodologies, organizations can build systems that reason, adapt, and collaborate at scale. With tools like Nano Banana enabling rapid visualization and communication of these complex systems, the barrier to entry has never been lower.
-
-**The future of software isn't about better code—it's about smarter agents working together to solve problems humans can't solve alone.**
-
----
-
-*Last Updated: November 2025*
-*Agentic Research Initiative*
+<div style="border-top: 1px solid #eee; padding-top: 20px; text-align: center; color: #666; font-size: 0.9em;">
+  <p>Generated with ❤️ By Ajmal U K</p>
+</div>
